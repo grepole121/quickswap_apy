@@ -1,0 +1,13 @@
+{
+  "name": "QuickSwapAPY",
+  "version": "0.1",
+  "manifest_version" : 2,
+  "description": "Calculates and displays the APY for various pools on QuickSwap! (If you have anything deposited you will need to logout for the extension to correctly work)",
+  "background" : {
+    "scripts" : ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "logo.jpg"
+  },
+  "permissions": ["activeTab"]
+}
