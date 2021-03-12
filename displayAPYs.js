@@ -1,12 +1,18 @@
 var x = document.getElementsByClassName("sc-kkGfuU WmMZl css-8626y4")
+var wallet = document.getElementsByClassName("sc-krvtoX iOfDQX")
 var i;
 var a;
 var tvl = [];
+var disconnected;
 var quickday = [];
 var apy = [];
 
-//Change disconnected from 0 to 1 if runnning the script when disconnected
-var disconnected = 0;
+//Check if wallet is connected
+if (wallet[0].textContent == "Switch to Matic"){
+	disconnected = 1;
+}else{
+	disconnected = 0;
+}
 
 var Httpreq = new XMLHttpRequest();
 Httpreq.open("GET","https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=0x6c28aef8977c9b773996d0e8376d2ee379446f2f&vs_currencies=usd",false);
