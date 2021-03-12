@@ -1,6 +1,6 @@
 {
   "name": "QuickSwapAPY",
-  "version": "0.1",
+  "version": "1.0",
   "manifest_version" : 2,
   "description": "Calculates and displays the APY for various pools on QuickSwap!",
   "background" : {
