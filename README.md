@@ -1,4 +1,4 @@
-# Quickswap APY Calculator Chrome Extensions
+# Quickswap APY Calculator Chrome/Brave Extension
 
 This is a browser extension that calculates the APYs on quickswap.exchange/#/quick
 
