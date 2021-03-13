@@ -9,7 +9,7 @@ var apy = [];
 var apy_positon = 0;
 
 //Check if wallet is connected
-if (wallet[0].textContent == "Switch to Matic"){
+if ( (wallet[0].textContent == "Switch to Matic") || (wallet[0].textContent == "Connect to a wallet") ){
 	disconnected = 1;
 }else{
 	disconnected = 0;
