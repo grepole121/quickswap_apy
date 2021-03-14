@@ -2,7 +2,7 @@
   "name": "QuickSwapAPY",
   "version": "1.0",
   "manifest_version" : 2,
-  "description": "Calculates and displays the APY for various pools on QuickSwap!",
+  "description": "QuickSwap APY Calculator",
   "background" : {
     "scripts" : ["background.js"]
   },
