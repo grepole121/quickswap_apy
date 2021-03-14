@@ -52,7 +52,7 @@ for (i=0; i < tvl.length; i++){
 }
 // Display the APY on the screen overwriting the status as it isn't important data
 for (i=2; i < x.length; i++){
-	if (x[i-1-disconnected].textContent == " Status "){
+	if ( (x[i-1-disconnected].textContent == " Status ") || (x[i-1-disconnected].textContent == "Current APY: ") ){
 		x[i-disconnected].textContent = apy[apy_positon]
 		x[i-1-disconnected].textContent = "Current APY: "
 		apy_positon++
