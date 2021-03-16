@@ -1,10 +1,10 @@
 {
   "name": "QuickSwapAPY",
   "version": "1.2",
-  "manifest_version" : 2,
+  "manifest_version": 2,
   "description": "QuickSwap APY Calculator",
-  "background" : {
-    "scripts" : ["background.js"]
+  "background": {
+    "scripts": ["background.js"]
   },
   "browser_action": {
     "default_icon": "logo.png"
