@@ -1,22 +1,12 @@
 var x = document.getElementsByClassName("sc-kkGfuU WmMZl css-8626y4");
-var wallet = document.getElementsByClassName("sc-krvtoX iOfDQX");
 var i;
 var a;
 var tvl = [];
-var disconnected;
 var quickday = [];
 var apy = [];
 var apy_positon = 0;
 
-// Check if wallet is connected
-if (
-  wallet[0].textContent == "Switch to Matic" ||
-  wallet[0].textContent == "Connect to a wallet"
-) {
-  disconnected = 1;
-} else {
-  disconnected = 0;
-}
+
 
 // Get price from CoinGecko API
 var quick_request = new XMLHttpRequest();
@@ -37,7 +27,7 @@ eth_request.open(
 eth_request.send(null);
 var eth_price = JSON.parse(eth_request.responseText)["ethereum"]["usd"];
 
-for (i = 2 - disconnected; i < x.length - 2; i++) {
+for (i = 1; i < x.length - 2; i++) {
   // Get the text of each element in the class
   a = x[i].textContent;
   // Remove any text from TVL
@@ -78,11 +68,11 @@ for (i = 0; i < tvl.length; i++) {
 // Display the APY on the screen overwriting the status as it isn't important data
 for (i = 2; i < x.length; i++) {
   if (
-    x[i - 1 - disconnected].textContent == " Status " ||
-    x[i - 1 - disconnected].textContent == "Current APY: "
+    x[i - 1].textContent == " Status " ||
+    x[i - 1].textContent == "Current APY: "
   ) {
-    x[i - disconnected].textContent = apy[apy_positon];
-    x[i - 1 - disconnected].textContent = "Current APY: ";
+    x[i].textContent = apy[apy_positon];
+    x[i - 1].textContent = "Current APY: ";
     apy_positon++;
   }
 }
