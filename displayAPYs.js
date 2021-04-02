@@ -1,10 +1,12 @@
 // Declare variables
 var x = document.getElementsByClassName("sc-kkGfuU WmMZl css-8626y4");
 var p = document.getElementsByClassName("sc-gVLVqr iSoxiC");
+var rate = document.getElementsByClassName("sc-ifAKCX hHNcCz")
 var i;
 var a;
 var tvl = [];
 var quickday = [];
+var yourrate = [];
 var apy;
 
 // Get QUICK price from CoinGecko API
@@ -61,8 +63,38 @@ for (i = 1; i < x.length - 2; i++) {
     a = parseFloat(a);
     // Append to the total value locked array
     quickday.push(a);
+  } else if (x[i - 1].textContent == "Your rate"){
+    // Strip everything that isn't a number or decimal
+    a = a.replace(/[^0-9.]/g, '');
+    yourrate.push(parseFloat(a))
   }
 }
+
+// Calculate and display the sum of your rate
+function displayYourRate(){
+  const sum = yourrate.reduce((partial_sum, a) => partial_sum + a,0);
+  var node = document.createElement("div");
+  node.className = "sc-gqjmRU sc-jTzLTM sc-fjdhpX sc-cnTzU eIRsCj";
+  node.style = "align-items: baseline;";
+
+  var textnode = document.createElement("div");
+  textnode.className = "sc-kkGfuU hyvXgi css-68pfx3";
+  textnode.append("Your Total Daily Quick: ")
+  textnode.style = "margin-top: 0.5rem;"
+
+  var ratenode = document.createElement("div");
+  ratenode.className = "sc-kkGfuU kuSmHG css-63v6lo";
+  ratenode.append(sum.toString().concat(" QUICK / day"));
+
+  node.appendChild(textnode);
+  node.appendChild(ratenode);
+
+  if (rate[0].firstChild.firstChild.textContent == "Your Total Daily Quick: "){
+    rate[0].removeChild(rate[0].firstChild)
+  }
+  rate[0].prepend(node)
+}
+
 
 // Display the APY on the screen
 for (i = 0; i < tvl.length; i++) {
@@ -93,4 +125,8 @@ for (i = 0; i < tvl.length; i++) {
   }
   // Append the element with APY
   p[i].append(node);
+}
+
+if (yourrate.length > 0){
+  displayYourRate();
 }
