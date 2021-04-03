@@ -73,6 +73,7 @@ for (i = 1; i < x.length - 2; i++) {
 // Calculate and display the sum of your rate
 function displayYourRate(){
   const sum = yourrate.reduce((partial_sum, a) => partial_sum + a,0);
+  var usdSum = (Math.round((sum*quick_price)*100)/100).toString();
   var node = document.createElement("div");
   node.className = "sc-gqjmRU sc-jTzLTM sc-fjdhpX sc-cnTzU eIRsCj";
   node.style = "align-items: baseline;";
@@ -84,7 +85,7 @@ function displayYourRate(){
 
   var ratenode = document.createElement("div");
   ratenode.className = "sc-kkGfuU kuSmHG css-63v6lo";
-  ratenode.append(sum.toString().concat(" QUICK / day"));
+  ratenode.append(sum.toString().concat(" QUICK / day ($").concat(usdSum).concat(")"));
 
   node.appendChild(textnode);
   node.appendChild(ratenode);
