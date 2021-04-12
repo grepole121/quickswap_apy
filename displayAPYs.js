@@ -113,13 +113,10 @@ if (yourRate.length > 0) {
 }
 function getQuickPrice() {
   // Get QUICK price from CoinGecko API
-  var quick_request = new XMLHttpRequest();
-  quick_request.open(
-    "GET",
-    "https://api.coingecko.com/api/v3/simple/price?ids=quick&vs_currencies=usd",
-    false
-  );
-  quick_request.send(null);
-  var quickPrice = JSON.parse(quick_request.responseText)["quick"]["usd"];
+  fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=quick&vs_currencies=usd"
+  )
+    .then((response) => response.json())
+    .then((data) => (quickPrice = data["quick"]["usd"]));
   return quickPrice;
 }
