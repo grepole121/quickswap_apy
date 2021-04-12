@@ -1,4 +1,4 @@
-// Declare variables
+1; // Declare variables
 var everyElement = document.getElementsByClassName(
   "sc-kkGfuU WmMZl css-8626y4"
 );
@@ -10,6 +10,7 @@ var quickPerDay = [];
 var yourRate = [];
 var yourDeposits = [];
 var apy;
+var apr;
 var quickPrice = getQuickPrice();
 
 // Loop through elements to get total value locked and QUICK per day
@@ -74,7 +75,10 @@ function displayYourRateAndDeposits() {
 // Display the APY on the screen
 for (var i = 0; i < tvl.length; i++) {
   // Calculate the APY
-  apy = (365 * 100 * quickPerDay[i] * quickPrice) / tvl[i];
+  apr = (365 * 100 * quickPerDay[i] * quickPrice) / tvl[i];
+  apr = (Math.round(apr * 100) / 100).toString().concat("%");
+
+  apy = (Math.pow(1 + (quickPerDay[i] * quickPrice) / tvl[i], 365) - 1) * 100;
   apy = (Math.round(apy * 100) / 100).toString().concat("%");
 
   // Creates a new element with Current APY
@@ -83,18 +87,21 @@ for (var i = 0; i < tvl.length; i++) {
 
   var textnode = document.createElement("div");
   textnode.className = "sc-kkGfuU WmMZl css-8626y4";
-  textnode.append("Current APY: ");
+  textnode.append("Current APR (APY if compounded daily): ");
 
   var apynode = document.createElement("div");
   apynode.className = "sc-kkGfuU WmMZl css-8626y4";
-  apynode.append(apy);
+  apynode.append(apr.concat(" (", apy, ")"));
 
   node.appendChild(textnode);
   node.appendChild(apynode);
 
   // Checks if element has been appended before
   // If so delete that element
-  if (poolElements[i].lastChild.firstChild.textContent == "Current APY: ") {
+  if (
+    poolElements[i].lastChild.firstChild.textContent ==
+    "Current APR (APY if compounded daily): "
+  ) {
     poolElements[i].removeChild(poolElements[i].lastChild);
   }
   // Append the element with APY
