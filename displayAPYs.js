@@ -13,6 +13,9 @@ var apy;
 var apr;
 var quickPrice = getQuickPrice();
 
+// TODO
+// rerun script when next page clicked
+
 // Loop through elements to get total value locked and QUICK per day
 for (var i = 1; i < everyElement.length - 2; i++) {
   everyElementIterator = everyElement[i].textContent;
@@ -113,10 +116,17 @@ if (yourRate.length > 0) {
 }
 function getQuickPrice() {
   // Get QUICK price from CoinGecko API
-  fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=quick&vs_currencies=usd"
-  )
-    .then((response) => response.json())
-    .then((data) => (quickPrice = data["quick"]["usd"]));
+  var quick_request = new XMLHttpRequest();
+  quick_request.open(
+    "GET",
+    "https://api.coingecko.com/api/v3/simple/price?ids=quick&vs_currencies=usd",
+    false
+  );
+  quick_request.send(null);
+  var quickPrice = JSON.parse(quick_request.responseText)["quick"]["usd"];
   return quickPrice;
 }
+
+// document
+//   .getElementsByName("sc-kkGfuU kuSmHG css-1frkxb8")[0]
+//   .addEventListener("change", console.log("a"));
