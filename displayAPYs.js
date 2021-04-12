@@ -1,4 +1,4 @@
-1; // Declare variables
+// Declare variables
 var everyElement = document.getElementsByClassName(
   "sc-kkGfuU WmMZl css-8626y4"
 );
@@ -12,9 +12,7 @@ var yourDeposits = [];
 var apy;
 var apr;
 var quickPrice = getQuickPrice();
-
-// TODO
-// rerun script when next page clicked
+console.log("ljhbvg");
 
 // Loop through elements to get total value locked and QUICK per day
 for (var i = 1; i < everyElement.length - 2; i++) {
@@ -126,7 +124,3 @@ function getQuickPrice() {
   var quickPrice = JSON.parse(quick_request.responseText)["quick"]["usd"];
   return quickPrice;
 }
-
-// document
-//   .getElementsByName("sc-kkGfuU kuSmHG css-1frkxb8")[0]
-//   .addEventListener("change", console.log("a"));
