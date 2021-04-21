@@ -12,7 +12,6 @@ var yourDeposits = [];
 var apy;
 var apr;
 var quickPrice = getQuickPrice();
-console.log("ljhbvg");
 
 // Loop through elements to get total value locked and QUICK per day
 for (var i = 1; i < everyElement.length - 2; i++) {
