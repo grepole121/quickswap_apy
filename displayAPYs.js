@@ -1,3 +1,15 @@
+// Get options
+// chrome.storage.sync.get(
+//   {
+//     totalDepositsOn: true,
+//     individualDepositsOn: true,
+//   },
+//   function (items) {
+//     isTotalDepositsOn = items.totalDepositsOn;
+//     isIndividualDepositsOn = items.individualDepositsOn;
+//   }
+// );
+
 // Declare variables
 var everyElement = document.getElementsByClassName(
   "sc-kkGfuU WmMZl css-8626y4"
@@ -73,7 +85,19 @@ function displayYourRateAndDeposits() {
   ) {
     personalDailyRate[0].removeChild(personalDailyRate[0].firstChild);
   }
-  personalDailyRate[0].prepend(node);
+
+  // Check options and only add total deposits if wanted in options
+  chrome.storage.sync.get(
+    {
+      totalDepositsOn: true,
+      individualDepositsOn: true,
+    },
+    function (items) {
+      if (items.totalDepositsOn) {
+        personalDailyRate[0].prepend(node);
+      }
+    }
+  );
 }
 
 // Display the APY on the screen
@@ -112,11 +136,13 @@ for (var i = 0; i < tvl.length; i++) {
   poolElements[i].append(node);
 }
 
+// If pools have been deposited into then display the total deposits and rate (assuming checked in options)
 if (yourRate.length > 0) {
   displayYourRateAndDeposits();
 }
+
+// Get QUICK price from CoinGecko API
 function getQuickPrice() {
-  // Get QUICK price from CoinGecko API
   var quick_request = new XMLHttpRequest();
   quick_request.open(
     "GET",
@@ -128,6 +154,7 @@ function getQuickPrice() {
   return quickPrice;
 }
 
+// Display the individual deposits for each pool (assuming checked in options)
 function appendDeposits(i) {
   var node = document.createElement("div");
   node.className = "sc-kcDeIU jIDzLD";
@@ -151,5 +178,17 @@ function appendDeposits(i) {
   ) {
     poolsDepositedIn[i].removeChild(poolsDepositedIn[i].lastElementChild);
   }
-  poolsDepositedIn[i].append(node);
+
+  // Check options and only add individual deposits if wanted in options
+  chrome.storage.sync.get(
+    {
+      totalDepositsOn: true,
+      individualDepositsOn: true,
+    },
+    function (items) {
+      if (items.individualDepositsOn) {
+        poolsDepositedIn[i].append(node);
+      }
+    }
+  );
 }
