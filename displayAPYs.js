@@ -102,6 +102,9 @@ function displayYourRateAndDeposits() {
 
 // Display the APY on the screen
 for (var i = 0; i < tvl.length; i++) {
+  // Remove "Status" "Running" if in compact mode
+  compact(i);
+
   // Calculate the APY
   apr = (365 * 100 * quickPerDay[i] * quickPrice) / tvl[i];
   apr = (Math.round(apr * 100) / 100).toString().concat("%");
@@ -188,6 +191,23 @@ function appendDeposits(i) {
     function (items) {
       if (items.individualDepositsOn) {
         poolsDepositedIn[i].append(node);
+      }
+    }
+  );
+}
+
+// Checks options to see if compact mode is on. If it is then remove Status Running text from each pool
+function compact(i) {
+  chrome.storage.sync.get(
+    {
+      compactModeOn: false,
+    },
+    function (items) {
+      if (
+        items.compactModeOn &&
+        poolElements[i].childNodes[2].textContent == " Status Running"
+      ) {
+        poolElements[i].removeChild(poolElements[i].childNodes[2]);
       }
     }
   );
