@@ -28,7 +28,7 @@ function restore_options() {
     {
       totalDepositsOn: true,
       individualDepositsOn: true,
-      compactModeOn: false,
+      compactModeOn: true,
     },
     function (items) {
       document.getElementById("total").checked = items.totalDepositsOn;
