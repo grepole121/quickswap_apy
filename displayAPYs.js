@@ -4,6 +4,9 @@ var everyElement = document.getElementsByClassName(
 );
 var poolElements = document.getElementsByClassName("sc-gVLVqr iSoxiC");
 var personalDailyRate = document.getElementsByClassName("sc-ifAKCX hHNcCz");
+var poolsDepositedIn = document.getElementsByClassName(
+  "sc-ifAKCX sc-cBdUnI gvnguD"
+);
 var everyElementIterator;
 var tvl = [];
 var quickPerDay = [];
@@ -39,6 +42,7 @@ function displayYourRateAndDeposits() {
   // Calculate your total LP deposited from your rate
   for (var i = 0; i < yourRate.length; i++) {
     yourDeposits.push((yourRate[i] * tvl[i]) / quickPerDay[i]);
+    appendDeposits(i);
   }
   var sumDeposits = yourDeposits.reduce((partial_sum, a) => partial_sum + a, 0);
   sumDeposits = (Math.round(sumDeposits * 100) / 100).toString();
@@ -122,4 +126,30 @@ function getQuickPrice() {
   quick_request.send(null);
   var quickPrice = JSON.parse(quick_request.responseText)["quick"]["usd"];
   return quickPrice;
+}
+
+function appendDeposits(i) {
+  var node = document.createElement("div");
+  node.className = "sc-kcDeIU jIDzLD";
+
+  var depositTextNode = document.createElement("div");
+  depositTextNode.className = "sc-kkGfuU WmMZl css-8626y4";
+  depositTextNode.append("Your deposits in this pool: ");
+
+  var depositedNode = document.createElement("div");
+  depositedNode.className = "sc-kkGfuU WmMZl css-8626y4";
+  depositedNode.append(
+    "$" + Math.round(((yourRate[i] * tvl[i]) / quickPerDay[i]) * 100) / 100
+  );
+
+  node.appendChild(depositTextNode);
+  node.appendChild(depositedNode);
+
+  if (
+    poolsDepositedIn[i].lastElementChild.textContent.substring(0, 28) ==
+    "Your deposits in this pool: "
+  ) {
+    poolsDepositedIn[i].removeChild(poolsDepositedIn[i].lastElementChild);
+  }
+  poolsDepositedIn[i].append(node);
 }
