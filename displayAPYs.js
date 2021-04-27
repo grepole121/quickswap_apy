@@ -17,8 +17,6 @@ function nextPage() {
   if (pageNum != prevPageNum) {
     main();
   }
-  console.log(pageNum);
-  console.log(prevPageNum);
   prevPageNum = pageNum;
 }
 
@@ -33,6 +31,7 @@ function main() {
   var poolsDepositedIn = document.getElementsByClassName(
     "sc-ifAKCX sc-cBdUnI gvnguD"
   );
+  var dQuickPool = document.getElementsByClassName("sc-cmjSyW cCCZTi");
   var everyElementIterator;
   var tvl = [];
   var quickPerDay = [];
@@ -60,7 +59,36 @@ function main() {
       // Strip everything that isn't a number or decimal
       everyElementIterator = everyElementIterator.replace(/[^0-9.]/g, "");
       yourRate.push(parseFloat(everyElementIterator));
+    } else if (everyElement[i - 1].textContent == " Total QUICK") {
+      var totalQuick = parseFloat(everyElementIterator);
     }
+  }
+  displayDquickApr(totalQuick);
+  // Calculate and display dQUICK APR
+  function displayDquickApr(totalQuick) {
+    aprRate =
+      (100 * (getQuickVolume() * 0.0004 * 365)) /
+      (getQuickPrice() * totalQuick);
+    aprRate = Math.round(aprRate * 100) / 100;
+    var node = document.createElement("div");
+    node.className = "sc-gqjmRU sc-jTzLTM sc-fjdhpX hwjYkd";
+
+    var textnode = document.createElement("div");
+    textnode.className = "sc-kkGfuU WmMZl css-8626y4";
+    textnode.append("dQUICK APR: ");
+
+    var ratenode = document.createElement("div");
+    ratenode.className = "sc-kkGfuU WmMZl css-8626y4";
+    ratenode.append(aprRate + "%");
+
+    node.appendChild(textnode);
+    node.appendChild(ratenode);
+
+    if (dQuickPool[0].lastChild.firstChild.textContent == "dQUICK APR: ") {
+      dQuickPool[0].removeChild(dQuickPool[0].lastChild);
+    }
+
+    dQuickPool[0].append(node);
   }
 
   // Calculate and display the sum of your rate and
@@ -174,6 +202,35 @@ function main() {
     quick_request.send(null);
     var quickPrice = JSON.parse(quick_request.responseText)["quick"]["usd"];
     return quickPrice;
+  }
+
+  // Get QuickSwap volume from CoinGecko API
+  function getQuickVolume() {
+    var request = new XMLHttpRequest();
+    request.open(
+      "GET",
+      "https://api.coingecko.com/api/v3/exchanges/quickswap",
+      false
+    );
+    request.send(null);
+    var quickVolumeBtc = JSON.parse(request.responseText)[
+      "trade_volume_24h_btc"
+    ];
+    var quickVolume = quickVolumeBtc * getBtcPrice();
+    return quickVolume;
+  }
+
+  // Get BTC Price from CoinGecko API
+  function getBtcPrice() {
+    var request = new XMLHttpRequest();
+    request.open(
+      "GET",
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
+      false
+    );
+    request.send(null);
+    var btcPrice = JSON.parse(request.responseText)["bitcoin"]["usd"];
+    return btcPrice;
   }
 
   // Display the individual deposits for each pool (assuming checked in options)
