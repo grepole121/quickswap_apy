@@ -32,6 +32,9 @@ function main() {
     "sc-ifAKCX sc-cBdUnI gvnguD"
   );
   var dQuickPool = document.getElementsByClassName("sc-cmjSyW cCCZTi");
+  var toolbar = document.getElementsByClassName(
+    "sc-gqjmRU sc-jTzLTM sc-itybZL kGvCcB"
+  )[0];
   var everyElementIterator;
   var tvl = [];
   var quickPerDay = [];
@@ -40,6 +43,17 @@ function main() {
   var apy;
   var apr;
   var quickPrice = getQuickPrice();
+
+  // Add QUICK price to toolbar
+  var quickNode = document.createElement("a");
+  quickNode.className = "sc-ipXKqB bRFUoD";
+  quickNode.append("QUICK Price: $" + quickPrice);
+  quickNode.href = "https://www.coingecko.com/en/coins/quick";
+  quickNode.target = "_blank";
+  if (toolbar.lastChild.textContent.substring(0, 14) == "QUICK Price: $") {
+    toolbar.removeChild(toolbar.lastChild);
+  }
+  toolbar.append(quickNode);
 
   // Loop through elements to get total value locked and QUICK per day
   for (var i = 1; i < everyElement.length - 2; i++) {
