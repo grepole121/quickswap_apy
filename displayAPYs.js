@@ -73,6 +73,20 @@ function main() {
       // Strip everything that isn't a number or decimal
       everyElementIterator = everyElementIterator.replace(/[^0-9.]/g, "");
       yourRate.push(parseFloat(everyElementIterator));
+      // Add dollars per day
+      // Remove and update if already run before
+      if (everyElement[i].textContent.includes("$")) {
+        everyElement[i].textContent = everyElement[i].textContent.substring(
+          0,
+          everyElement[i].textContent.length - 9
+        );
+      }
+      everyElement[i].textContent +=
+        " ($" +
+        (
+          Math.round(quickPrice * parseFloat(everyElementIterator) * 100) / 100
+        ).toFixed(2) +
+        ")";
     } else if (everyElement[i - 1].textContent == " Total QUICK") {
       var totalQuick = parseFloat(everyElementIterator);
     }
