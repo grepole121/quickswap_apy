@@ -78,7 +78,7 @@ function main() {
       if (everyElement[i].textContent.includes("$")) {
         everyElement[i].textContent = everyElement[i].textContent.substring(
           0,
-          everyElement[i].textContent.length - 9
+          everyElement[i].textContent.indexOf(" ($")
         );
       }
       everyElement[i].textContent +=
