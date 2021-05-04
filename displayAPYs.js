@@ -70,9 +70,7 @@ function main() {
       everyElementIterator = parseFloat(everyElementIterator);
       quickPerDay.push(everyElementIterator);
     } else if (everyElement[i - 1].textContent == "Your rate") {
-      // Strip everything that isn't a number or decimal
-      everyElementIterator = everyElementIterator.replace(/[^0-9.]/g, "");
-      yourRate.push(parseFloat(everyElementIterator));
+      yourRate.push(parseFloat(everyElementIterator.substring(1)));
       // Add dollars per day
       // Remove and update if already run before
       if (everyElement[i].textContent.includes("$")) {
@@ -84,7 +82,9 @@ function main() {
       everyElement[i].textContent +=
         " ($" +
         (
-          Math.round(quickPrice * parseFloat(everyElementIterator) * 100) / 100
+          Math.round(
+            quickPrice * parseFloat(everyElementIterator.substring(1)) * 100
+          ) / 100
         ).toFixed(2) +
         ")";
     } else if (everyElement[i - 1].textContent == " Total QUICK") {
