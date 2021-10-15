@@ -26,12 +26,18 @@ function main() {
   var everyElement = document.getElementsByClassName(
     "sc-kkGfuU WmMZl css-8626y4"
   );
-  var poolElements = document.getElementsByClassName("sc-gVLVqr iSoxiC");
+  var poolElements = document.getElementsByClassName(
+    "sc-ifAKCX sc-kcDeIU iplGbC"
+  );
+  var innerPoolElements = document.getElementsByClassName("sc-exkUMo ipTEbZ");
   var personalDailyRate = document.getElementsByClassName("sc-ifAKCX hHNcCz");
   var poolsDepositedIn = document.getElementsByClassName(
     "sc-ifAKCX sc-cBdUnI gvnguD"
   );
-  var dQuickPool = document.getElementsByClassName("sc-cmjSyW cCCZTi");
+  var dQuickPool = document.getElementsByClassName(
+    "sc-ifAKCX sc-cHSUfg kXUsvK"
+  );
+  var innerdQuickPool = document.getElementsByClassName("sc-iYUSvU avdmw");
   var toolbar = document.getElementsByClassName(
     "sc-gqjmRU sc-jTzLTM sc-itybZL kGvCcB"
   )[0];
@@ -63,11 +69,16 @@ function main() {
     everyElementIterator = everyElementIterator.replace("$", "");
     everyElementIterator = everyElementIterator.replace(" QUICK / day", "");
 
+    if (everyElement[i - 1].textContent == " QUICK Rate ") {
+      var dQuickRate = everyElementIterator.replace(/[^\d.]/g, "");
+    }
+
     if (everyElement[i - 1].textContent == " Total deposits") {
       everyElementIterator = parseFloat(everyElementIterator);
       tvl.push(everyElementIterator);
     } else if (everyElement[i - 1].textContent == " Pool rate ") {
-      everyElementIterator = parseFloat(everyElementIterator);
+      everyElementIterator =
+        parseFloat(everyElementIterator) * parseFloat(dQuickRate);
       quickPerDay.push(everyElementIterator);
     } else if (everyElement[i - 1].textContent == "Your rate") {
       yourRate.push(parseFloat(everyElementIterator.substring(1)));
@@ -112,11 +123,11 @@ function main() {
     node.appendChild(textnode);
     node.appendChild(ratenode);
 
-    if (dQuickPool[0].lastChild.firstChild.textContent == "dQUICK APR: ") {
-      dQuickPool[0].removeChild(dQuickPool[0].lastChild);
+    if (innerdQuickPool[0].lastChild.firstChild.textContent == "dQUICK APR: ") {
+      innerdQuickPool[0].removeChild(innerdQuickPool[0].lastChild);
     }
 
-    dQuickPool[0].append(node);
+    innerdQuickPool[0].append(node);
   }
 
   // Calculate and display the sum of your rate and
@@ -177,9 +188,6 @@ function main() {
 
   // Display the APY on the screen
   for (var i = 0; i < tvl.length; i++) {
-    // Remove "Status" "Running" if in compact mode
-    compact(i);
-
     // Calculate the APY
     apr = (365 * 100 * quickPerDay[i] * quickPrice) / tvl[i];
     apr = (Math.round(apr * 100) / 100).toString().concat("%");
@@ -205,13 +213,13 @@ function main() {
     // Checks if element has been appended before
     // If so delete that element
     if (
-      poolElements[i].lastChild.firstChild.textContent ==
+      innerPoolElements[i].lastChild.firstChild.textContent ==
       "Current APR (APY if compounded daily): "
     ) {
-      poolElements[i].removeChild(poolElements[i].lastChild);
+      innerPoolElements[i].removeChild(innerPoolElements[i].lastChild);
     }
     // Append the element with APY
-    poolElements[i].append(node);
+    innerPoolElements[i].append(node);
   }
 
   // If pools have been deposited into then display the total deposits and rate (assuming checked in options)
@@ -295,23 +303,6 @@ function main() {
       function (items) {
         if (items.individualDepositsOn) {
           poolsDepositedIn[i].append(node);
-        }
-      }
-    );
-  }
-
-  // Checks options to see if compact mode is on. If it is then remove Status Running text from each pool
-  function compact(i) {
-    chrome.storage.sync.get(
-      {
-        compactModeOn: false,
-      },
-      function (items) {
-        if (
-          items.compactModeOn &&
-          poolElements[i].childNodes[2].textContent == " Status Running"
-        ) {
-          poolElements[i].removeChild(poolElements[i].childNodes[2]);
         }
       }
     );

@@ -2,12 +2,10 @@
 function save_options() {
   var _totalDepositsOn = document.getElementById("total").checked;
   var _individualDepositsOn = document.getElementById("individual").checked;
-  var _compactModeOn = document.getElementById("compact").checked;
   chrome.storage.sync.set(
     {
       totalDepositsOn: _totalDepositsOn,
       individualDepositsOn: _individualDepositsOn,
-      compactModeOn: _compactModeOn,
     },
     function () {
       // Update status to let user know options were saved.
@@ -34,7 +32,6 @@ function restore_options() {
       document.getElementById("total").checked = items.totalDepositsOn;
       document.getElementById("individual").checked =
         items.individualDepositsOn;
-      document.getElementById("compact").checked = items.compactModeOn;
     }
   );
 }
